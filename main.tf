@@ -92,8 +92,6 @@ resource "azurerm_public_ip" "catapp-pip" {
 resource "azurerm_virtual_machine" "catapp" {
   name                = "${var.prefix}-meow"
   location            = var.location
-  Department          = "devops"
-  Billable            = "true"
   resource_group_name = azurerm_resource_group.myresourcegroup.name
   vm_size             = var.vm_size
 
@@ -106,7 +104,10 @@ resource "azurerm_virtual_machine" "catapp" {
     sku       = var.image_sku
     version   = var.image_version
   }
-
+  tags = {
+    Billing     = "true"
+    Department  = "devops"
+  }
   storage_os_disk {
     name              = "${var.prefix}-osdisk"
     managed_disk_type = "Standard_LRS"
